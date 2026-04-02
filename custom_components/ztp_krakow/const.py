@@ -5,6 +5,7 @@ CONF_STOP_ID = "stop_id"
 CONF_STOP_NAME = "stop_name"
 CONF_STOP_TYPE = "stop_type"
 CONF_LINE = "line"
+CONF_DIRECTION = "direction"
 CONF_MODE = "mode"
 
 MODE_STOP = "stop"
@@ -21,5 +22,12 @@ API_TRAM_STOPS_URL = "http://www.ttss.krakow.pl/internetservice/geoserviceDispat
 
 API_BUS_VEHICLES_URL = "https://ttss.mpk.krakow.pl/internetservice/geoserviceDispatcher/services/vehicleinfo/vehicles?lastUpdate=0"
 API_TRAM_VEHICLES_URL = "http://www.ttss.krakow.pl/internetservice/geoserviceDispatcher/services/vehicleinfo/vehicles?lastUpdate=0"
+
+API_BUS_ROUTES_URL = (
+    "https://ttss.mpk.krakow.pl/internetservice/services/routeInfo/route"
+)
+API_TRAM_ROUTES_URL = (
+    "http://www.ttss.krakow.pl/internetservice/services/routeInfo/route"
+)
 
 DEFAULT_UPDATE_INTERVAL = 30

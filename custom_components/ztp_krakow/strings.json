@@ -2,20 +2,41 @@
   "config": {
     "step": {
       "user": {
-        "title": "Select vehicle type",
-        "description": "ZTP Krak\u00f3w has two separate systems for buses and trams.",
+        "title": "Select integration mode",
+        "description": "ZTP Krak\u00f3w allows tracking departures from a stop or vehicles on a map.",
         "data": {
-          "stop_type": "Stop Type"
+          "stop_type": "Stop Type",
+          "mode": "What do you want to do?"
         }
       },
       "stop": {
         "title": "Select Stop",
-        "description": "Select your stop from the dropdown list. If the list failed to load, enter the ID manually.\nYou can also optionally filter the results to a single line.",
+        "description": "Select your stop from the dropdown list. If the list failed to load, enter the ID manually.",
         "data": {
           "stop_id": "Select stop from list",
           "manual_stop_id": "OR enter ID manually (if list is empty)",
-          "stop_name": "Custom Stop Name (if entered manually)",
-          "line": "Filter by Line (Optional, e.g., 192)"
+          "stop_name": "Custom Stop Name (if entered manually)"
+        }
+      },
+      "line_filter": {
+        "title": "Select line (Optional)",
+        "description": "You can track all lines (Select \"Wszystkie\") or restrict results to a specific line.",
+        "data": {
+          "line": "Line"
+        }
+      },
+      "direction": {
+        "title": "Select direction (Optional)",
+        "description": "For the selected line, you can further restrict results to a single direction.",
+        "data": {
+          "direction": "Direction"
+        }
+      },
+      "line": {
+        "title": "Select Line",
+        "description": "Enter the line number (e.g. 192). All vehicles on this route will be added to the map.",
+        "data": {
+          "line": "Line Number"
         }
       }
     },
@@ -23,7 +44,8 @@
       "missing_stop_id": "You must select a stop or enter its ID manually",
       "cannot_connect_stops": "Could not fetch stops list (API might be down). Please enter ID manually.",
       "cannot_connect": "Failed to connect to TTSS API",
-      "unknown": "Unexpected error"
+      "unknown": "Unexpected error",
+      "missing_line": "Line number cannot be empty"
     },
     "abort": {
       "already_configured": "This stop with this filter is already configured"

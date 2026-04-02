@@ -8,7 +8,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import DOMAIN, CONF_STOP_NAME, CONF_STOP_ID, CONF_STOP_TYPE, CONF_LINE
+from .const import DOMAIN, CONF_STOP_NAME, CONF_STOP_ID, CONF_STOP_TYPE, CONF_LINE, CONF_DIRECTION
 
 
 async def async_setup_entry(
@@ -23,26 +23,30 @@ async def async_setup_entry(
     stop_id = entry.data.get(CONF_STOP_ID)
     stop_type = entry.data.get(CONF_STOP_TYPE)
     line = entry.data.get(CONF_LINE, "")
+    direction = entry.data.get(CONF_DIRECTION, "")
 
     async_add_entities(
-        [ZtpKrakowStopSensor(coordinator, stop_name, stop_id, stop_type, line)]
+        [ZtpKrakowStopSensor(coordinator, stop_name, stop_id, stop_type, line, direction)]
     )
 
 
 class ZtpKrakowStopSensor(CoordinatorEntity, SensorEntity):
     """Representation of a ZTP Krak\u00f3w Stop sensor."""
 
-    def __init__(self, coordinator, stop_name, stop_id, stop_type, line):
+    def __init__(self, coordinator, stop_name, stop_id, stop_type, line, direction):
         """Initialize the sensor."""
         super().__init__(coordinator)
         self._stop_name = stop_name
         self._stop_id = stop_id
         self._stop_type = stop_type
         self._line = line
+        self._direction = direction
 
         self._attr_name = f"Przystanek {stop_name}"
         if self._line:
             self._attr_name += f" (Linia {self._line})"
+        if self._direction:
+            self._attr_name += f" kier. {self._direction}"
 
         self._attr_unique_id = (
             f"ztp_krakow_{stop_type}_{stop_id}_{self._line}"

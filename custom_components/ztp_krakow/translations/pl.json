@@ -2,31 +2,53 @@
   "config": {
     "step": {
       "user": {
-        "title": "Wybierz typ pojazdu",
-        "description": "ZTP Krak\u00f3w posiada dwa osobne systemy dla autobus\u00f3w i tramwaj\u00f3w.",
+        "title": "Wybierz tryb pracy integracji",
+        "description": "ZTP Krak\u00f3w umozliwia \u015bledzenie odjazd\u00f3w z przystanku lub pojazd\u00f3w na mapie.",
         "data": {
-          "stop_type": "Typ przystanku"
+          "mode": "Co chcesz zrobi\u0107?",
+          "stop_type": "Typ pojazdu (Autobus / Tramwaj)"
         }
       },
       "stop": {
         "title": "Wybierz przystanek",
-        "description": "Wybierz sw\u00f3j przystanek z rozwijanej listy. Je\u015bli lista si\u0119 nie za\u0142adowa\u0142a wpisz ID r\u0119cznie.\nMo\u017cesz r\u00f3wnie\u017c opcjonalnie przefiltrowa\u0107 wyniki tylko do jednej, wybranej linii (zostaw to pole puste aby \u015bledzi\u0107 wszystkie odjazdy).",
+        "description": "Wybierz sw\u00f3j przystanek z rozwijanej listy. Je\u015bli lista si\u0119 nie za\u0142adowa\u0142a wpisz ID r\u0119cznie.",
         "data": {
           "stop_id": "Wybierz przystanek z listy",
           "manual_stop_id": "LUB wpisz ID r\u0119cznie (je\u015bli lista jest pusta)",
-          "stop_name": "W\u0142asna nazwa przystanku (je\u015bli wpisujesz r\u0119cznie)",
-          "line": "Filtruj po Linii (Opcjonalnie, np. 192)"
+          "stop_name": "W\u0142asna nazwa przystanku (je\u015bli wpisujesz r\u0119cznie)"
+        }
+      },
+      "line_filter": {
+        "title": "Wybierz lini\u0119 (Opcjonalne)",
+        "description": "Mo\u017cesz \u015bledzi\u0107 odjazdy wszystkich linii (Wybierz 'Wszystkie') lub ograniczy\u0107 wyniki tylko do wybranej linii.",
+        "data": {
+          "line": "Linia"
+        }
+      },
+      "direction": {
+        "title": "Wybierz kierunek (Opcjonalne)",
+        "description": "Dla wybranej linii mo\u017cesz jeszcze zaw\u0119zi\u0107 wyniki tylko do jednego kierunku jazdy.",
+        "data": {
+          "direction": "Kierunek"
+        }
+      },
+      "line": {
+        "title": "Wybierz lini\u0119",
+        "description": "Wpisz numer linii (np. 192). Wszystkie pojazdy na tej trasie zostan\u0105 dodane do mapy.",
+        "data": {
+          "line": "Numer Linii"
         }
       }
     },
     "error": {
       "missing_stop_id": "Musisz wybra\u0107 przystanek z listy lub wpisa\u0107 ID r\u0119cznie",
+      "missing_line": "Numer linii nie mo\u017ce by\u0107 pusty",
       "cannot_connect_stops": "Nie uda\u0142o si\u0119 pobra\u0107 listy przystank\u00f3w (ZTP API mo\u017ce by\u0107 niedost\u0119pne). Wpisz ID r\u0119cznie.",
       "cannot_connect": "Nie uda\u0142o si\u0119 po\u0142\u0105czy\u0107 z serwerem MPK",
       "unknown": "Nieznany b\u0142\u0105d"
     },
     "abort": {
-      "already_configured": "Ten przystanek z takim filtrowaniem jest ju\u017c skonfigurowany"
+      "already_configured": "Ten przystanek (lub linia) z takim filtrowaniem jest ju\u017c skonfigurowany"
     }
   }
 }
