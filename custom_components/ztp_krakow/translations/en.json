@@ -2,21 +2,31 @@
   "config": {
     "step": {
       "user": {
-        "title": "Add ZTP Kraków Stop",
-        "description": "Enter the Stop ID (can be found in the TTSS URL e.g. ?stop=317 means ID 317), type and custom name.",
+        "title": "Select vehicle type",
+        "description": "ZTP Krak\u00f3w has two separate systems for buses and trams.",
         "data": {
-          "stop_name": "Name (e.g. Teatr Bagatela)",
-          "stop_id": "Stop ID (e.g. 317)",
-          "stop_type": "Stop Type (Bus / Tram)"
+          "stop_type": "Stop Type"
+        }
+      },
+      "stop": {
+        "title": "Select Stop",
+        "description": "Select your stop from the dropdown list. If the list failed to load, enter the ID manually.\nYou can also optionally filter the results to a single line.",
+        "data": {
+          "stop_id": "Select stop from list",
+          "manual_stop_id": "OR enter ID manually (if list is empty)",
+          "stop_name": "Custom Stop Name (if entered manually)",
+          "line": "Filter by Line (Optional, e.g., 192)"
         }
       }
     },
     "error": {
-      "cannot_connect": "Failed to connect",
+      "missing_stop_id": "You must select a stop or enter its ID manually",
+      "cannot_connect_stops": "Could not fetch stops list (API might be down). Please enter ID manually.",
+      "cannot_connect": "Failed to connect to TTSS API",
       "unknown": "Unexpected error"
     },
     "abort": {
-      "already_configured": "This stop is already configured"
+      "already_configured": "This stop with this filter is already configured"
     }
   }
 }

@@ -2,21 +2,31 @@
   "config": {
     "step": {
       "user": {
-        "title": "Dodaj przystanek ZTP Kraków",
-        "description": "Wpisz ID przystanku (można sprawdzić w URL na stronie TTSS np. ?stop=317 oznacza ID 317) oraz jego typ i własną nazwę.",
+        "title": "Wybierz typ pojazdu",
+        "description": "ZTP Krak\u00f3w posiada dwa osobne systemy dla autobus\u00f3w i tramwaj\u00f3w.",
         "data": {
-          "stop_name": "Nazwa (np. Teatr Bagatela)",
-          "stop_id": "ID przystanku (np. 317)",
-          "stop_type": "Typ przystanku (Autobus / Tramwaj)"
+          "stop_type": "Typ przystanku"
+        }
+      },
+      "stop": {
+        "title": "Wybierz przystanek",
+        "description": "Wybierz sw\u00f3j przystanek z rozwijanej listy. Je\u015bli lista si\u0119 nie za\u0142adowa\u0142a wpisz ID r\u0119cznie.\nMo\u017cesz r\u00f3wnie\u017c opcjonalnie przefiltrowa\u0107 wyniki tylko do jednej, wybranej linii (zostaw to pole puste aby \u015bledzi\u0107 wszystkie odjazdy).",
+        "data": {
+          "stop_id": "Wybierz przystanek z listy",
+          "manual_stop_id": "LUB wpisz ID r\u0119cznie (je\u015bli lista jest pusta)",
+          "stop_name": "W\u0142asna nazwa przystanku (je\u015bli wpisujesz r\u0119cznie)",
+          "line": "Filtruj po Linii (Opcjonalnie, np. 192)"
         }
       }
     },
     "error": {
-      "cannot_connect": "Nie udało się połączyć",
-      "unknown": "Nieznany błąd"
+      "missing_stop_id": "Musisz wybra\u0107 przystanek z listy lub wpisa\u0107 ID r\u0119cznie",
+      "cannot_connect_stops": "Nie uda\u0142o si\u0119 pobra\u0107 listy przystank\u00f3w (ZTP API mo\u017ce by\u0107 niedost\u0119pne). Wpisz ID r\u0119cznie.",
+      "cannot_connect": "Nie uda\u0142o si\u0119 po\u0142\u0105czy\u0107 z serwerem MPK",
+      "unknown": "Nieznany b\u0142\u0105d"
     },
     "abort": {
-      "already_configured": "Ten przystanek jest już skonfigurowany"
+      "already_configured": "Ten przystanek z takim filtrowaniem jest ju\u017c skonfigurowany"
     }
   }
 }
