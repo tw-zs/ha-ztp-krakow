@@ -15,6 +15,9 @@ from .const import (
     CONF_STOP_NAME,
     CONF_STOP_TYPE,
     CONF_LINE,
+    CONF_MODE,
+    MODE_STOP,
+    MODE_LINE,
     STOP_TYPE_BUS,
     STOP_TYPE_TRAM,
     API_BUS_STOPS_URL,
@@ -30,19 +33,31 @@ class ZtpKrakowConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     VERSION = 1
 
     def __init__(self):
+        self.config_mode = None
         self.stop_type = None
         self.stops_dict = {}
 
     async def async_step_user(self, user_input=None):
-        """Handle the initial step to choose stop type."""
+        """Handle the initial step to choose mode."""
         errors = {}
 
         if user_input is not None:
+            self.config_mode = user_input[CONF_MODE]
             self.stop_type = user_input[CONF_STOP_TYPE]
-            return await self.async_step_stop()
+
+            if self.config_mode == MODE_STOP:
+                return await self.async_step_stop()
+            else:
+                return await self.async_step_line()
 
         data_schema = vol.Schema(
             {
+                vol.Required(CONF_MODE, default=MODE_STOP): vol.In(
+                    {
+                        MODE_STOP: "Przystanek (Odjazdy)",
+                        MODE_LINE: "Linia (Pojazdy na mapie)",
+                    }
+                ),
                 vol.Required(CONF_STOP_TYPE, default=STOP_TYPE_BUS): vol.In(
                     {
                         STOP_TYPE_BUS: "Autobus",
@@ -65,8 +80,6 @@ class ZtpKrakowConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             stop_id = user_input.get(CONF_STOP_ID, "")
             manual_id = user_input.get("manual_stop_id", "")
-
-            # Use manual ID if provided, otherwise the dropdown one
             final_stop_id = manual_id if manual_id else stop_id
 
             if not final_stop_id:
@@ -77,7 +90,7 @@ class ZtpKrakowConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 )
                 line = user_input.get(CONF_LINE, "")
 
-                unique_id = f"{self.stop_type}_{final_stop_id}"
+                unique_id = f"stop_{self.stop_type}_{final_stop_id}"
                 if line:
                     unique_id += f"_{line}"
 
@@ -89,6 +102,7 @@ class ZtpKrakowConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     title += f" (Linia {line})"
 
                 data = {
+                    CONF_MODE: MODE_STOP,
                     CONF_STOP_TYPE: self.stop_type,
                     CONF_STOP_ID: final_stop_id,
                     CONF_STOP_NAME: stop_name,
@@ -97,7 +111,6 @@ class ZtpKrakowConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
                 return self.async_create_entry(title=title, data=data)
 
-        # Try to fetch stops for the dropdown
         if not self.stops_dict:
             session = async_get_clientsession(self.hass)
             url = (
@@ -121,7 +134,6 @@ class ZtpKrakowConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                                     f"{stop.get('name', 'Nieznany')} ({s_id})"
                                 )
 
-                        # Sort alphabetically by name
                         self.stops_dict = {
                             k: v
                             for k, v in sorted(
@@ -130,7 +142,6 @@ class ZtpKrakowConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         }
             except Exception as e:
                 _LOGGER.error("Error fetching stops: %s", e)
-                # Fallback to empty dict
 
         if self.stops_dict:
             data_schema = vol.Schema(
@@ -140,7 +151,6 @@ class ZtpKrakowConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 }
             )
         else:
-            # Fallback manual schema
             data_schema = vol.Schema(
                 {
                     vol.Required(CONF_STOP_NAME): str,
@@ -152,6 +162,43 @@ class ZtpKrakowConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         return self.async_show_form(
             step_id="stop",
+            data_schema=data_schema,
+            errors=errors,
+        )
+
+    async def async_step_line(self, user_input=None):
+        """Handle the step to select a line for tracking."""
+        errors = {}
+
+        if user_input is not None:
+            line = user_input.get(CONF_LINE, "").strip()
+
+            if not line:
+                errors["base"] = "missing_line"
+            else:
+                unique_id = f"line_{self.stop_type}_{line}"
+
+                await self.async_set_unique_id(unique_id)
+                self._abort_if_unique_id_configured()
+
+                title = f"Linia {line} ({'Autobus' if self.stop_type == STOP_TYPE_BUS else 'Tramwaj'})"
+
+                data = {
+                    CONF_MODE: MODE_LINE,
+                    CONF_STOP_TYPE: self.stop_type,
+                    CONF_LINE: line,
+                }
+
+                return self.async_create_entry(title=title, data=data)
+
+        data_schema = vol.Schema(
+            {
+                vol.Required(CONF_LINE): str,
+            }
+        )
+
+        return self.async_show_form(
+            step_id="line",
             data_schema=data_schema,
             errors=errors,
         )

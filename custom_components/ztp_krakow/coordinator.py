@@ -1,4 +1,4 @@
-"""Data update coordinator for ZTP Kraków."""
+"""Data update coordinator for ZTP Krak\u00f3w."""
 
 from datetime import timedelta
 import logging
@@ -12,8 +12,12 @@ from .const import (
     DOMAIN,
     API_BUS_URL,
     API_TRAM_URL,
+    API_BUS_VEHICLES_URL,
+    API_TRAM_VEHICLES_URL,
     STOP_TYPE_BUS,
     DEFAULT_UPDATE_INTERVAL,
+    MODE_STOP,
+    MODE_LINE,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -22,15 +26,24 @@ _LOGGER = logging.getLogger(__name__)
 class ZtpKrakowCoordinator(DataUpdateCoordinator):
     """Class to manage fetching ZTP Krakow data."""
 
-    def __init__(self, hass: HomeAssistant, stop_id: str, stop_type: str) -> None:
+    def __init__(
+        self, hass: HomeAssistant, stop_type: str, mode: str, identifier: str
+    ) -> None:
         """Initialize."""
-        self.stop_id = stop_id
         self.stop_type = stop_type
+        self.mode = mode
+        self.identifier = identifier
 
-        if stop_type == STOP_TYPE_BUS:
-            self.api_url = API_BUS_URL.format(stop_id=stop_id)
+        if mode == MODE_STOP:
+            if stop_type == STOP_TYPE_BUS:
+                self.api_url = API_BUS_URL.format(stop_id=identifier)
+            else:
+                self.api_url = API_TRAM_URL.format(stop_id=identifier)
         else:
-            self.api_url = API_TRAM_URL.format(stop_id=stop_id)
+            if stop_type == STOP_TYPE_BUS:
+                self.api_url = API_BUS_VEHICLES_URL
+            else:
+                self.api_url = API_TRAM_VEHICLES_URL
 
         super().__init__(
             hass,
@@ -48,6 +61,22 @@ class ZtpKrakowCoordinator(DataUpdateCoordinator):
                 response = await session.get(self.api_url, ssl=False)
                 response.raise_for_status()
                 data = await response.json()
+
+                # If we are in line mode, we fetch ALL vehicles, but we should filter them
+                # here so we don't store 1000 vehicles in HA state unnecessarily
+                if self.mode == MODE_LINE:
+                    vehicles = data.get("vehicles", [])
+                    # The name usually looks like "192 Dworzec G\u0142\u00f3wny Wsch\u00f3d"
+                    # We look for vehicles whose name starts with "LINE "
+                    line_prefix = f"{self.identifier} "
+                    filtered = [
+                        v
+                        for v in vehicles
+                        if str(v.get("name", "")).startswith(line_prefix)
+                        and not v.get("isDeleted")
+                    ]
+                    return {"vehicles": filtered}
+
                 return data
         except Exception as err:
             raise UpdateFailed(f"Error communicating with API: {err}")
