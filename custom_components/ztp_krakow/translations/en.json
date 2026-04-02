@@ -2,7 +2,7 @@
   "config": {
     "step": {
       "user": {
-        "title": "Add ZTP Krak\u00f3w Stop",
+        "title": "Add ZTP Kraków Stop",
         "description": "Enter the Stop ID (can be found in the TTSS URL e.g. ?stop=317 means ID 317), type and custom name.",
         "data": {
           "stop_name": "Name (e.g. Teatr Bagatela)",

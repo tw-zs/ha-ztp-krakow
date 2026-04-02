@@ -1,4 +1,4 @@
-"""The ZTP Krak\u00f3w integration."""
+"""The ZTP Kraków integration."""
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
@@ -11,7 +11,7 @@ PLATFORMS = [Platform.SENSOR]
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    """Set up ZTP Krak\u00f3w from a config entry."""
+    """Set up ZTP Kraków from a config entry."""
     hass.data.setdefault(DOMAIN, {})
 
     stop_id = entry.data[CONF_STOP_ID]

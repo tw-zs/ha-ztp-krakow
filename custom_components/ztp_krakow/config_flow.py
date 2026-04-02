@@ -1,4 +1,4 @@
-"""Config flow for ZTP Krak\u00f3w."""
+"""Config flow for ZTP Kraków."""
 
 import voluptuous as vol
 from homeassistant import config_entries
@@ -13,7 +13,7 @@ from .const import (
 
 
 class ZtpKrakowConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
-    """Handle a config flow for ZTP Krak\u00f3w."""
+    """Handle a config flow for ZTP Kraków."""
 
     VERSION = 1
 

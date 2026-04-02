@@ -2,8 +2,8 @@
   "config": {
     "step": {
       "user": {
-        "title": "Dodaj przystanek ZTP Krak\u00f3w",
-        "description": "Wpisz ID przystanku (mo\u017cna sprawdzi\u0107 w URL na stronie TTSS np. ?stop=317 oznacza ID 317) oraz jego typ i w\u0142asn\u0105 nazw\u0119.",
+        "title": "Dodaj przystanek ZTP Kraków",
+        "description": "Wpisz ID przystanku (można sprawdzić w URL na stronie TTSS np. ?stop=317 oznacza ID 317) oraz jego typ i własną nazwę.",
         "data": {
           "stop_name": "Nazwa (np. Teatr Bagatela)",
           "stop_id": "ID przystanku (np. 317)",
@@ -12,11 +12,11 @@
       }
     },
     "error": {
-      "cannot_connect": "Nie uda\u0142o si\u0119 po\u0142\u0105czy\u0107",
-      "unknown": "Nieznany b\u0142\u0105d"
+      "cannot_connect": "Nie udało się połączyć",
+      "unknown": "Nieznany błąd"
     },
     "abort": {
-      "already_configured": "Ten przystanek jest ju\u017c skonfigurowany"
+      "already_configured": "Ten przystanek jest już skonfigurowany"
     }
   }
 }

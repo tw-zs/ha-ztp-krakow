@@ -1,4 +1,4 @@
-"""Data update coordinator for ZTP Krak\u00f3w."""
+"""Data update coordinator for ZTP Kraków."""
 
 from datetime import timedelta
 import logging
