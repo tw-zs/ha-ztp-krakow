@@ -1,6 +1,8 @@
 """Sensor platform for ZTP Krak\u00f3w."""
 
-from homeassistant.components.sensor import SensorEntity
+from homeassistant.components.sensor import SensorEntity, SensorDeviceClass
+from datetime import timedelta
+import homeassistant.util.dt as dt_util
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -48,7 +50,7 @@ class ZtpKrakowStopSensor(CoordinatorEntity, SensorEntity):
             else f"ztp_krakow_{stop_type}_{stop_id}"
         )
         self._attr_icon = "mdi:bus" if stop_type == "bus" else "mdi:tram"
-        self._attr_native_unit_of_measurement = "min"
+        self._attr_device_class = SensorDeviceClass.TIMESTAMP
 
     def _get_filtered_departures(self):
         """Filter departures by line if configured."""
@@ -74,16 +76,12 @@ class ZtpKrakowStopSensor(CoordinatorEntity, SensorEntity):
         if not deps:
             return None
 
-        for dep in deps:
-            mixed_time = dep.get("mixedTime", "")
-            if "%UNIT_MIN%" in mixed_time:
-                minutes_str = mixed_time.split(" ")[0]
-                try:
-                    return int(minutes_str)
-                except ValueError:
-                    pass
-            elif mixed_time == "":
-                return 0
+        first_dep = deps[0]
+        # API zwraca actualRelativeTime w sekundach od teraz
+        rel_time = first_dep.get("actualRelativeTime")
+        if rel_time is not None:
+            return dt_util.utcnow() + timedelta(seconds=rel_time)
+            
         return None
 
     @property
