@@ -1,4 +1,4 @@
-"""Config flow for ZTP Krak\u00f3w."""
+"""Config flow for ZTP Kraków."""
 
 import voluptuous as vol
 import aiohttp
@@ -31,7 +31,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 class ZtpKrakowConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
-    """Handle a config flow for ZTP Krak\u00f3w."""
+    """Handle a config flow for ZTP Kraków."""
 
     VERSION = 1
 

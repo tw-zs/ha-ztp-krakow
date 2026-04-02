@@ -1,4 +1,4 @@
-"""Device tracker platform for ZTP Krak\u00f3w."""
+"""Device tracker platform for ZTP Kraków."""
 
 from homeassistant.components.device_tracker import TrackerEntity
 from homeassistant.config_entries import ConfigEntry
@@ -14,7 +14,7 @@ async def async_setup_entry(
     entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    """Set up the ZTP Krak\u00f3w device trackers."""
+    """Set up the ZTP Kraków device trackers."""
     coordinator = hass.data[DOMAIN][entry.entry_id]
     line = entry.data.get(CONF_LINE)
     stop_type = entry.data.get(CONF_STOP_TYPE)
@@ -51,7 +51,7 @@ async def async_setup_entry(
 
 
 class ZtpKrakowVehicle(CoordinatorEntity, TrackerEntity):
-    """Representation of a ZTP Krak\u00f3w vehicle on map."""
+    """Representation of a ZTP Kraków vehicle on map."""
 
     def __init__(self, coordinator, vehicle_id, line, stop_type):
         """Initialize the tracker."""
@@ -62,7 +62,8 @@ class ZtpKrakowVehicle(CoordinatorEntity, TrackerEntity):
 
         self._attr_unique_id = f"ztp_krakow_vehicle_{self._vehicle_id}"
         self._attr_icon = "mdi:bus" if stop_type == "bus" else "mdi:tram"
-        self._attr_name = f"{'Autobus' if stop_type == 'bus' else 'Tramwaj'} {line}"
+        # The name will be computed dynamically based on vehicle data
+        self._base_name = f"{'Autobus' if stop_type == 'bus' else 'Tramwaj'} {line}"
 
     @property
     def _vehicle_data(self):
@@ -90,6 +91,28 @@ class ZtpKrakowVehicle(CoordinatorEntity, TrackerEntity):
         if data and "longitude" in data:
             return data["longitude"] / 3600000.0
         return None
+
+
+    @property
+    def name(self):
+        """Return the name of the entity."""
+        data = self._vehicle_data
+        if data and "name" in data:
+            parts = data["name"].split(" ", 1)
+            if len(parts) > 1:
+                return f"{self._base_name} (kier. {parts[1]})"
+        return self._base_name
+
+    @property
+    def location_name(self) -> str | None:
+        """Return a location name for the current location of the device."""
+        data = self._vehicle_data
+        if data and "name" in data:
+            parts = data["name"].split(" ", 1)
+            if len(parts) > 1:
+                return f"Kierunek: {parts[1]}"
+            return data["name"]
+        return "W trasie"
 
     @property
     def extra_state_attributes(self):

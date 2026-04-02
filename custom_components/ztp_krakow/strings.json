@@ -3,7 +3,7 @@
     "step": {
       "user": {
         "title": "Select integration mode",
-        "description": "ZTP Krak\u00f3w allows tracking departures from a stop or vehicles on a map.",
+        "description": "ZTP Kraków allows tracking departures from a stop or vehicles on a map.",
         "data": {
           "stop_type": "Stop Type",
           "mode": "What do you want to do?"

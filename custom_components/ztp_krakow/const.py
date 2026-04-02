@@ -1,4 +1,4 @@
-"""Constants for the ZTP Krak\u00f3w integration."""
+"""Constants for the ZTP Kraków integration."""
 
 DOMAIN = "ztp_krakow"
 CONF_STOP_ID = "stop_id"

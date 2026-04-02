@@ -1,4 +1,4 @@
-"""Data update coordinator for ZTP Krak\u00f3w."""
+"""Data update coordinator for ZTP Kraków."""
 
 from datetime import timedelta
 import logging
@@ -66,7 +66,7 @@ class ZtpKrakowCoordinator(DataUpdateCoordinator):
                 # here so we don't store 1000 vehicles in HA state unnecessarily
                 if self.mode == MODE_LINE:
                     vehicles = data.get("vehicles", [])
-                    # The name usually looks like "192 Dworzec G\u0142\u00f3wny Wsch\u00f3d"
+                    # The name usually looks like "192 Dworzec Główny Wschód"
                     # We look for vehicles whose name starts with "LINE "
                     line_prefix = f"{self.identifier} "
                     filtered = [

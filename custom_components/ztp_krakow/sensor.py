@@ -1,4 +1,4 @@
-"""Sensor platform for ZTP Krak\u00f3w."""
+"""Sensor platform for ZTP Kraków."""
 
 from homeassistant.components.sensor import SensorEntity, SensorDeviceClass
 from datetime import timedelta
@@ -16,7 +16,7 @@ async def async_setup_entry(
     entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    """Set up the ZTP Krak\u00f3w sensor."""
+    """Set up the ZTP Kraków sensor."""
     coordinator = hass.data[DOMAIN][entry.entry_id]
 
     stop_name = entry.data.get(CONF_STOP_NAME)
@@ -31,7 +31,7 @@ async def async_setup_entry(
 
 
 class ZtpKrakowStopSensor(CoordinatorEntity, SensorEntity):
-    """Representation of a ZTP Krak\u00f3w Stop sensor."""
+    """Representation of a ZTP Kraków Stop sensor."""
 
     def __init__(self, coordinator, stop_name, stop_id, stop_type, line, direction):
         """Initialize the sensor."""
@@ -96,10 +96,10 @@ class ZtpKrakowStopSensor(CoordinatorEntity, SensorEntity):
             return {"departures": []}
 
         status_map = {
-            "PREDICTED": "na \u017cywo",
-            "PLANNED": "wed\u0142ug rozk\u0142adu",
+            "PREDICTED": "na żywo",
+            "PLANNED": "według rozkładu",
             "STOPPING": "na przystanku",
-            "DEPARTED": "odjecha\u0142",
+            "DEPARTED": "odjechał",
         }
 
         departures = []

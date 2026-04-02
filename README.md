@@ -6,10 +6,11 @@
 Integracja dla [Home Assistant](https://www.home-assistant.io/) pobierająca dane z krakowskiego systemu TTSS (MPK / ZTP Kraków). Pozwala na śledzenie tablicy odjazdów na żywo z wybranych przystanków tramwajowych i autobusowych.
 
 ## Funkcje
-- 🚎 **Odjazdy na żywo**: Pobiera aktualny czas przyjazdu / odjazdu (w minutach).
-- 🛣 **Wsparcie Config Flow**: Łatwe dodawanie przystanków z poziomu interfejsu (brak konieczności grzebania w `configuration.yaml`).
-- 🔄 **Osobne źródła dla tramwajów i autobusów**: Obsługa zarówno TTSS MPK (autobusy) jak i ZTP (tramwaje).
-- 📊 **Słownik w atrybutach**: Dzięki zwracanej liście możesz z łatwością formatować tablicę odjazdów w Markdown, flex-table-card lub innych customowych kartach Lovelace.
+- 🚎 **Odjazdy na żywo**: Pobiera aktualny czas przyjazdu / odjazdu i wspiera wbudowaną w Home Assistant klasę `timestamp`.
+- 🗺️ **Pojazdy na Mapie**: Możesz zdefiniować śledzenie konkretnej linii. Wszystkie jej autobusy lub tramwaje pojawią się jako obiekty na wbudowanej w Home Assistant Mapie, pokazując ich obecną pozycję, kierunek i trasę!
+- 🛣 **Wsparcie Config Flow**: Łatwe dodawanie przystanków z poziomu interfejsu z inteligentną listą (brak konieczności grzebania w `configuration.yaml`).
+- 🔄 **Kierunki i Linie**: Dodając przystanek możesz odfiltrować wyniki tylko do wybranej linii lub tylko do określonego kierunku jazdy.
+- 📊 **Słownik w atrybutach**: Dzięki zwracanej liście wszystkich odjazdów z danego przystanku, możesz z łatwością formatować tablicę odjazdów we własnych kartach.
 
 ## Instalacja
 
@@ -26,18 +27,18 @@ Integracja dla [Home Assistant](https://www.home-assistant.io/) pobierająca dan
 
 ## Konfiguracja
 
-Z poziomu interfejsu:
-1. Wejdź w Ustawienia -> Urządzenia i usługi -> **Integracje**
-2. Kliknij **Dodaj integrację** (Add integration)
-3. Wyszukaj **ZTP Kraków**
-4. Wypełnij formularz:
-   - **Nazwa**: Dowolna własna nazwa przystanku (np. "Teatr Bagatela")
-   - **ID przystanku**: Numeryczny identyfikator. Można go znaleźć w URL klikając przystanek na stronie [Autobusów](http://ttss.mpk.krakow.pl/) lub [Tramwajów](http://www.ttss.krakow.pl/) (zwróć uwagę na parametr `?stop=ID` - np. `317`).
-   - **Typ**: Wybierz, czy jest to przystanek autobusowy czy tramwajowy.
+Z poziomu interfejsu (Ustawienia -> Urządzenia i usługi -> Dodaj integrację):
 
-## Użycie w Dashboardzie (Karta Markdown)
+### Tryb: Przystanek (Tablica odjazdów)
+Wybierz z listy zintegrowany przystanek. Połączy to się z API ZTP i wygeneruje listę. Opcjonalnie w kolejnym kroku możesz zawęzić wyniki do określonej **Linii**, a w jeszcze następnym - do interesującego Cię **Kierunku**!
+Zalecane użycie: Dodaj do Dashboardu natywną kartę "Encje". Home Assistant automatycznie sformatuje czasy odjazdów jako "Za 5 minut".
 
-W Home Assistant wszystkie kolejne odjazdy znajdują się w atrybucie `departures`. Możesz użyć standardowej karty Markdown z poniższym kodem, aby stworzyć tablicę:
+### Tryb: Linia (Pojazdy na Mapie)
+Wpisz numer linii (np. "192" lub "50"). Integracja utworzy dynamiczne urządzenia śledzące dla każdego aktywnego pojazdu tej trasy w Krakowie. Wejdź w widok "Mapa" z bocznego menu w Home Assistant, a zobaczysz przemieszczające się ikony.
+
+## Użycie zaawansowane w Dashboardzie (Karta Markdown)
+
+W Home Assistant wszystkie kolejne odjazdy z danego przystanku znajdują się również w atrybucie `departures`. Możesz użyć standardowej karty Markdown, aby stworzyć całą tablicę odjazdów (ala tablice przystankowe w Krakowie):
 
 ```yaml
 type: markdown
