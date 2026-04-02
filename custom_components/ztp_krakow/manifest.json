@@ -1,0 +1,12 @@
+{
+  "domain": "ztp_krakow",
+  "name": "ZTP Krak\u00f3w",
+  "codeowners": [],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/",
+  "requirements": [],
+  "version": "1.0.0"
+}

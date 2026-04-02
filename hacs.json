@@ -1,0 +1,8 @@
+{
+  "name": "ZTP Krak\u00f3w",
+  "render_readme": true,
+  "file_name": "ztp_krakow",
+  "iot_class": "cloud_polling",
+  "domain": "ztp_krakow",
+  "version": "1.0.0"
+}

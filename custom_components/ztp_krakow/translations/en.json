@@ -1,0 +1,22 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Add ZTP Krak\u00f3w Stop",
+        "description": "Enter the Stop ID (can be found in the TTSS URL e.g. ?stop=317 means ID 317), type and custom name.",
+        "data": {
+          "stop_name": "Name (e.g. Teatr Bagatela)",
+          "stop_id": "Stop ID (e.g. 317)",
+          "stop_type": "Stop Type (Bus / Tram)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect",
+      "unknown": "Unexpected error"
+    },
+    "abort": {
+      "already_configured": "This stop is already configured"
+    }
+  }
+}
